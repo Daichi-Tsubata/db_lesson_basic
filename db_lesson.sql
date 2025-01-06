@@ -16,17 +16,25 @@ ALTER TABLE people ADD department_id INT UNSIGNED COMMENT '1営業 2開発 3経�
 カラムの順番の変更
 ALTER TABLE people MODIFY department_id INT UNSIGNED AFTER email;
 
+
+訂正
+ALTER TABLE people ADD department_id INT UNSIGNED AFTER email;
+
 Q3
 レコードの追加
 部署
 INSERT INTO departments (name) VALUES 
-("sales"),
-("business"),
-("development"),
-("accounting"),
-("HR"),
-("information");
+("営業"),
+("開発"),
+("経理"),
+("人事"),
+("情報システム"),
 
+UPDATE departments SET name = '営業' WHERE department_id = 1;
+UPDATE departments SET name = '開発' WHERE department_id = 2;
+UPDATE departments SET name = '経理' WHERE department_id = 3;
+UPDATE departments SET name = '人事' WHERE department_id = 4;
+UPDATE departments SET name = '情報システム' WHERE department_id = 5;
 人
 UPDATE people SET department_id = 1 WHERE person_id = 1;
 UPDATE people SET department_id = 1 WHERE person_id = 2;
@@ -44,12 +52,12 @@ INSERT INTO people (name, email, department_id, age, gender)VALUES
 UPDATE people SET person_id = 5 WHERE person_id = 11;
  
  日報
- UPDATE reports SET content = "特に書くことがない…文字数稼ぎ" WHERE report_id = 1;
- UPDATE reports SET content = "今日の晩御飯はロールキャベツでした" WHERE report_id = 2;
- UPDATE reports SET content = "キャンプってお金かからない趣味だと思ってました" WHERE report_id = 3;
- UPDATE reports SET content = "実は全然そんなことなかったです" WHERE report_id = 4;
- UPDATE reports SET content = "まず車を用意する段階で200万消えます" WHERE report_id = 5;
- UPDATE reports SET content = "そして他のギアも大体１万近い物だらけです" WHERE report_id = 6;
+ UPDATE reports SET content = "特に書くことがない…文字数稼ぎ" WHERE person_id = 1;
+ UPDATE reports SET content = "今日の晩御飯はロールキャベツでした" WHERE person_id = 2;
+ UPDATE reports SET content = "キャンプってお金かからない趣味だと思ってました" WHERE person_id = 3;
+ UPDATE reports SET content = "実は全然そんなことなかったです" WHERE person_id = 4;
+ UPDATE reports SET content = "まず車を用意する段階で200万消えます" WHERE person_id = 5;
+ UPDATE reports SET content = "そして他のギアも大体１万近い物だらけです" WHERE person_id = 6;
 
 INSERT INTO reports(person_id,content) VALUES( 7,'早くプログラマーになって沢山キャンプ行きたい');
 INSERT INTO reports(person_id,content) VALUES( 8,'さぁいよいよ書くことが無くなってきた');
@@ -61,9 +69,11 @@ Q4
 問題をよく理解しておらず、Q3の段階でもともといた人に部署と日報を割り振ってしまっておりました。
 この人たち以外に10人追加しなくては行けなったようですね…
 
+UPDATE people SET department_id = "1" WHERE person_id = 12;
+
 Q5
 年齢の降順で男性の名前と年齢を取得
-SELECT name,age,gender FROM people WHERE age IS NOT NULL ORDER BY age DESC;
+SELECT name,age FROM people WHERE gender = 1  ORDER BY age DESC;
 
 Q6
 テーブル・レコード・カラムという3つの単語を適切に使用して、下記のSQL文を日本語で説明
@@ -83,11 +93,11 @@ ORDER BYでは期待結果を並べ替える句なので今回は作成日時（
 
 Q7
 20代の女性と40代の男性の名前一覧を取得
-SELECT name,age
+SELECT name
 FROM people
 WHERE (gender = 2 AND age BETWEEN 20 AND 29)
 OR (gender = 1 AND age BETWEEN 40 AND 49);
-今回は「20代の女性（と）40代の男性の名前一覧を取得してください。」なのでOR
+
 
 Q8
 営業部に所属する人だけを年齢の昇順で取得
